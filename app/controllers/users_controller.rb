@@ -9,11 +9,14 @@ class UsersController < ApplicationController
   end
 
   def create
-    @user = User.new
-    if @user.create(user_params)
-      redirect_to user_path(@user)
+    @user = User.new(user_params)
+
+    if @user.save
+      payload = {user_id: @user.id}
+      token = Auth.issue(payload)
+      render json: {jwt: token}
     else
-      render new_user_path
+      render json: {error: @user.errors}, status: 401
     end
   end
 
