@@ -10,4 +10,5 @@ class User < ApplicationRecord
   def self.from_token(token)
     user_id = Auth.decode(token)["user_id"]
     User.find(user_id)
+  end
 end
