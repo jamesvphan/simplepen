@@ -4,11 +4,17 @@ class UsersController < ApplicationController
     @user = User.new
   end
 
+  def index
+    @users = User.all
+    render json: @users
+  end
+
   def show
     @user = User.find_by(id: params[:id])
   end
 
   def create
+    byebug 
     @user = User.new(user_params)
 
     if @user.save
