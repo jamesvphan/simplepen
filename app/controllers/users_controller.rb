@@ -10,11 +10,20 @@ class UsersController < ApplicationController
   end
 
   def show
-    @user = User.find_by(id: params[:id])
+    token = params[:headers][:token]
+    @result = Auth.decode(token)
+    @user = User.find(@result["user_id"])
+    @userAccount = {
+      notebooks: @user.notebooks,
+      id: @user.id,
+      username: @user.username,
+      email: @user.email
+    }
+    render json: @userAccount
   end
 
   def create
-    byebug 
+    byebug
     @user = User.new(user_params)
 
     if @user.save

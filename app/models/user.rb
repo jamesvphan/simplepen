@@ -1,6 +1,7 @@
 class User < ApplicationRecord
   has_many :notebooks
   has_many :notes, through: :notebooks
+  validates :username, presence: true
   has_secure_password
 
   def self.authenticated(username, password)
