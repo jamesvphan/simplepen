@@ -3,13 +3,17 @@ class NotesController < ApplicationController
     @note = Note.new
   end
 
+
   def create
-    @note = Note.new(note_params)
-      if @note.save
-        redirect_to note_path
-      else
-        render :new
-      end
+    byebug
+    token = params[:headers][:token]
+    @result = Auth.decode(token)
+    @notebook = User.find(@result["user_id"])
+    @note = Note.new(title: params[:note][:title], body: params[:note][:body], notebook_id: 1)
+    byebug
+    if @note.save
+      render json: @note
+    end
   end
 
   def show
@@ -27,7 +31,7 @@ class NotesController < ApplicationController
   def update
     @note = Note.find(params[:id])
     @note.update(note_params)
-    redirect_to @note 
+    redirect_to @note
   end
 
   def destroy
