@@ -14,10 +14,10 @@ class UsersController < ApplicationController
     @result = Auth.decode(token)
     @user = User.find(@result["user_id"])
     @userAccount = {
-      notebooks: @user.notebooks,
       id: @user.id,
       username: @user.username,
-      email: @user.email
+      email: @user.email,
+      notebooks: @user.notebooks
     }
     render json: @userAccount
   end
