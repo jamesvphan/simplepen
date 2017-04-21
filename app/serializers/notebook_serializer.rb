@@ -1,3 +1,3 @@
 class NotebookSerializer < ActiveModel::Serializer
-  attributes :id, :title, :description, :notes
+  attributes :id, :title, :notes
 end
