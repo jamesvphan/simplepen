@@ -5,9 +5,9 @@ class SessionsController < ApplicationController
   end
 
   def create
-    @user = User.find_by(username: params[:user][:username])
-    if @user #.authenticated(username: params[:username], password: params[:password])
-      #byebug
+
+    @user = User.find_by(username: params[:session][:username])
+    if @user.authenticate(params[:session][:password])
       payload = {user_id: @user.id}
       token = Auth.issue(payload)
       render json: {jwt: token}

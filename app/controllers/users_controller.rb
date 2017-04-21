@@ -4,11 +4,26 @@ class UsersController < ApplicationController
     @user = User.new
   end
 
+  def index
+    @users = User.all
+    render json: @users
+  end
+
   def show
-    @user = User.find_by(id: params[:id])
+    token = params[:headers][:token]
+    @result = Auth.decode(token)
+    @user = User.find(@result["user_id"])
+    @userAccount = {
+      id: @user.id,
+      username: @user.username,
+      email: @user.email,
+      notebooks: @user.notebooks
+    }
+    render json: @userAccount
   end
 
   def create
+    byebug
     @user = User.new(user_params)
 
     if @user.save
@@ -23,7 +38,7 @@ class UsersController < ApplicationController
   private
 
   def user_params
-    params.require(:user).permit(:username, :email)
+    params.require(:user).permit(:username, :email, :password, :password_confirmation)
   end
 
 end

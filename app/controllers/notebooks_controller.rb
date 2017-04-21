@@ -5,11 +5,12 @@ class NotebooksController < ApplicationController
   end
 
   def create
-    @notebook = Notebook.new(notebook_params)
-      if @notebook.save
-        redirect_to notebooks_path
-      else
-        render :new
+    token = params[:headers][:token]
+    @result = Auth.decode(token)
+    @user = User.find(@result["user_id"])
+    @notebook = Notebook.new(title: params[:notebook][:title], description: params[:notebook][:title], user_id: @user.id)
+    if @notebook.save
+      render json: @notebook
     end
   end
 
