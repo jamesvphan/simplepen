@@ -1,8 +1,8 @@
 class NotesController < ApplicationController
+
   def new
     @note = Note.new
   end
-
 
   def create
     byebug
@@ -17,11 +17,17 @@ class NotesController < ApplicationController
   end
 
   def show
-    @note = Note.find(params[:id])
+    byebug
+    token = request.headers["token"]
+    user = User.find(Auth.decode(token)["user_id"])
+    notebook = user.notebooks.find(params[:notebook_id])
+    note = notebook.notes.find(params[:id])
+    render json: note
   end
 
   def index
     @notes = Note.all
+    render json: @notes
   end
 
   def edit

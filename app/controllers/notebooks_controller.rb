@@ -8,15 +8,17 @@ class NotebooksController < ApplicationController
     token = params[:headers][:token]
     @result = Auth.decode(token)
     @user = User.find(@result["user_id"])
-    @notebook = Notebook.new(title: params[:notebook][:title], description: params[:notebook][:title], user_id: @user.id)
+    @notebook = Notebook.new(title: params[:notebook][:title], user_id: @user.id)
     if @notebook.save
       render json: @notebook
     end
   end
 
   def show
-    @notebook = Notebook.find(params[:id])
-    render json: @notebook
+    token = request.headers["token"]
+    user = User.find(Auth.decode(token)["user_id"])
+    notebook = user.notebooks.find(params[:id])
+    render json: notebook
   end
 
   def index

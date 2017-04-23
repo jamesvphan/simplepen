@@ -5,6 +5,7 @@ class SessionsController < ApplicationController
   end
 
   def create
+
     @user = User.find_by(username: params[:session][:username])
     if @user.authenticate(params[:session][:password])
       payload = {user_id: @user.id}
