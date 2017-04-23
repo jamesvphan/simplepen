@@ -7,17 +7,16 @@ class NotesController < ApplicationController
   def create
     byebug
     token = params[:headers][:token]
-    @result = Auth.decode(token)
-    @notebook = User.find(@result["user_id"])
-    @note = Note.new(title: params[:note][:title], body: params[:note][:body], notebook_id: 1)
+    user = User.find(Auth.decode(token)["user_id"])
+    notebook_id = params[:notebook_id]
+    note = Note.new(title: params[:note][:title], body: params[:note][:body], notebook_id: notebook_id)
     byebug
-    if @note.save
-      render json: @note
+    if note.save
+      render json: note
     end
   end
 
   def show
-    byebug
     token = request.headers["token"]
     user = User.find(Auth.decode(token)["user_id"])
     notebook = user.notebooks.find(params[:notebook_id])
