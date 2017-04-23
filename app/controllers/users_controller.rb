@@ -17,7 +17,8 @@ class UsersController < ApplicationController
       id: @user.id,
       username: @user.username,
       email: @user.email,
-      notebooks: @user.notebooks
+      notebooks: @user.notebooks,
+      notes: @user.notes
     }
     render json: @userAccount
   end
