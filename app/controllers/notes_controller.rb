@@ -17,9 +17,11 @@ class NotesController < ApplicationController
   end
 
   def show
+    byebug
     token = request.headers["token"]
     user = User.find(Auth.decode(token)["user_id"])
-    note = user.notebooks.find(params[:notebook_id]).find(params[:id])
+    notebook = user.notebooks.find(params[:notebook_id])
+    note = notebook.notes.find(params[:id])
     render json: note
   end
 
