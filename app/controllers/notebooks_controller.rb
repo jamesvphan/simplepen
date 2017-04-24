@@ -39,7 +39,7 @@ class NotebooksController < ApplicationController
   def destroy
     @notebook = Notebook.find(params[:id])
     @notebook.delete
-    redirect_to notebooks_path
+    render json: params[:id]
   end
 
   private
