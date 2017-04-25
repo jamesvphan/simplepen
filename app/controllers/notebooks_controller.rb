@@ -5,6 +5,7 @@ class NotebooksController < ApplicationController
   end
 
   def create
+    byebug
     token = params[:headers][:token]
     @result = Auth.decode(token)
     @user = User.find(@result["user_id"])
