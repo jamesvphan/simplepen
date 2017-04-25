@@ -1,16 +1,16 @@
 class NotebooksController < ApplicationController
 
   def new
-    @notebook = Notebook.new
+    notebook = Notebook.new
   end
 
   def create
     token = params[:headers][:token]
-    @result = Auth.decode(token)
-    @user = User.find(@result["user_id"])
-    @notebook = Notebook.new(title: params[:notebook][:title], user_id: @user.id)
-    if @notebook.save
-      render json: @notebook
+    result = Auth.decode(token)
+    user = User.find(result["user_id"])
+    notebook = Notebook.new(title: params[:notebook][:title], user_id: user.id)
+    if notebook.save
+      render json: notebook
     end
   end
 

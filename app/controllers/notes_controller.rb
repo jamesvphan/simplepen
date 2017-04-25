@@ -1,16 +1,14 @@
 class NotesController < ApplicationController
 
   def new
-    @note = Note.new
+    note = Note.new
   end
 
   def create
-    byebug
     token = params[:headers][:token]
     user = User.find(Auth.decode(token)["user_id"])
     notebook_id = params[:notebook_id]
     note = Note.new(title: params[:note][:title], body: params[:note][:body], notebook_id: notebook_id)
-    byebug
     if note.save
       render json: note
     end
@@ -25,30 +23,24 @@ class NotesController < ApplicationController
   end
 
   def index
-    @notes = Note.all
-    render json: @notes
+    notes = Note.all
+    render json: notes
   end
 
   def edit
-    @note = Note.find(params[:id])
+    note = Note.find(params[:id])
   end
 
   def update
-    @note = Note.find(params[:id])
-    @note.update(title: params[:title], body: params[:note])
-    render json: @note
+    note = Note.find(params[:id])
+    note.update(title: params[:title], body: params[:note])
+    render json: note
   end
 
   def destroy
-    @note = Note.find(params[:id])
-    @note.delete
+    note = Note.find(params[:id])
+    note.delete
     redirect_to notes_path
-  end
-
-  private
-
-  def note_params
-    params.require(:note).permit(:title, :body)
   end
 
 end
