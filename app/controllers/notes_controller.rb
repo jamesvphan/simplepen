@@ -41,7 +41,10 @@ class NotesController < ApplicationController
   def destroy
     note = Note.find(params[:id])
     note.delete
-    redirect_to notes_path
+    render json: params[:id]
   end
+
+
+
 
 end
