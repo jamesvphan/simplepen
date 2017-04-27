@@ -7,7 +7,7 @@ class NotesController < ApplicationController
   def create
     token = params[:headers][:token]
     user = User.find(Auth.decode(token)["user_id"])
-    notebook_id = params[:notebook_id]  
+    notebook_id = params[:notebook_id]
     note = Note.new(title: params[:title], body: params[:note][:body], notebook_id: notebook_id)
     if note.save
       render json: note
@@ -33,7 +33,7 @@ class NotesController < ApplicationController
 
   def update
     note = Note.find(params[:id])
-    note.update(title: params[:title], body: params[:note])
+    note.update(body: params[:note])
     render json: note
   end
 
