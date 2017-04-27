@@ -1,3 +1,5 @@
+require "auth"
+
 class SessionsController < ApplicationController
 
   def new
