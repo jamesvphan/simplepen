@@ -7,8 +7,7 @@ class NotesController < ApplicationController
   def create
     token = params[:headers][:token]
     user = User.find(Auth.decode(token)["user_id"])
-    notebook_id = params[:notebook_id]
-    debugger
+    notebook_id = params[:notebook_id]  
     note = Note.new(title: params[:title], body: params[:note][:body], notebook_id: notebook_id)
     if note.save
       render json: note
